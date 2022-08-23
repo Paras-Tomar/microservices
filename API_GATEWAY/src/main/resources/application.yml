@@ -1,0 +1,38 @@
+server:
+  port: 8585  
+
+eureka:
+  client:
+    register-with-eureka: true  
+    fetch-registry: true
+    
+    service-url:
+      defaultZone:  http://localhost:8761/eureka/
+
+
+  instance:
+    hostname: localhost
+    
+    
+spring:
+ application:
+  name: API-GATEWAY
+  
+  
+  
+ cloud:
+    gateway:
+      routes:
+      
+      - id: STUDENT-SERVICE                   #http://localhost:8181/api/v1/department
+        uri: lb://STUDENT-SERVICE
+        predicates:
+        - Path=/api/v1/students/**
+      
+     
+      - id:  FACULTY-SERVICE                       #http://localhost:8282/api/v1/users
+        uri: lb://FACULTY-SERVICE
+        predicates:
+        - Path=/api/v1/faculties/**
+        #- Path=/api/v1/user/get/user-dept/**
+
